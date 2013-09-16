@@ -1,5 +1,4 @@
-
-// By vertexxx 2012
+// By Markus Börner 2012
 // Install:
 //          a) change parent classname in line 13 & 15
 //          b) implement "void tickerevent()" in parentclass
