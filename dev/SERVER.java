@@ -2,6 +2,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 import java.net.URLEncoder;
+import java.lang.*;
 
 public class SERVER
 {
@@ -12,30 +13,40 @@ public class SERVER
     
     SETTINGS set;
     
+    Thread [] activeThreads;
+    
     int port = 1234;
     
     public SERVER(SETTINGS s) throws IOException
     {
-        //System.out.println ( conv.encode(":/éäöüß", "UTF-8")+"éäöüß" );
-        serverSocket = new ServerSocket(port);
-        //System.out.println("#Server started on port: "+port+" !");
+        activeThreads = new Thread [ set.getMaxThreads() ] ;
+        serverSocket = new ServerSocket( set.getPort() );
         try {
-            test();
+            startAccept();
         } catch (IOException e) {
             e.printStackTrace();
         } 
     }
 
-    
-   private void test() throws IOException {
+    private void startAccept() throws IOException {
+        LOG.write("Ready to accept on "+set.getPort());
         while(true){
-            System.out.println("awaiting requwest");
-            verarbeiten( serverSocket.accept() );
-            System.out.println("socket accepted");
-            //schreibeNachricht(client, nachricht);
+            try {
+                accept ( serverSocket.accept() );
+            } catch (IOException e) {
+                LOG.write("Err while accepting a socket.",1);
+                e.printStackTrace();
+            }
         }
     }
     
+    private void accept(Socket socket) throws IOException {
+        activeThreads [ firstEmptySlot() ] = new Thread( new SOCKETTHREAD(firstEmptySlot(), socket, this, set) );
+    }
+    
+    private int firstEmptySlot(){
+        return 0;
+    }
     
     private String verarbeiten(Socket socket) throws IOException {
         int buffersize = socket.getReceiveBufferSize();
