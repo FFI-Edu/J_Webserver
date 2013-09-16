@@ -28,4 +28,11 @@ public class LOG
     {
         ;
     }
+    
+    private String date(){
+        String date="";
+        
+        
+        return date;        
+    }
 }
