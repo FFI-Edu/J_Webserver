@@ -15,17 +15,32 @@ public class LOG
      *      16.09.2013-01:20:26 | 001 | Failure at blabla
      *      
      */
-
-    /**
-     * Time + ' | ' +FAILSYMBOL+ ' | ' +LINE
-     */
     public static void write(String line)
     {
         write(line,0);
     }
     public static void write(String line, int errorcode)
     {
-        ;
+        String err="000";
+        if(errorcode>100) err=""+errorcode;
+        if(errorcode>9 && errorcode<100) err="0"+errorcode;
+        if(errorcode<10 && errorcode!=0) err="00"+errorcode;
+        
+        File log = new File("log"+File.separator+"events.txt");
+        
+        if(!log.exists())clearlog();
+        
+        if(log.canRead() && log.canWrite())
+        {
+            FileWriter fw=null;
+            try {
+                fw = new FileWriter(log,true);
+                fw.append("\n"+date()+" | "+err+" | "+line);
+            }catch(Exception e){}
+            finally {
+                if (fw != null) try {fw.close();}catch(Exception e){};
+            }
+        }
     }
     
     /**
@@ -39,17 +54,26 @@ public class LOG
         if(log.exists())
             log.delete();
         
+        log = new File("log"+File.separator);
+        log.mkdirs();
         log = new File("log"+File.separator+"events.txt");
-        try{
-            log.mkdir();
+        try{            
             log.createNewFile();
         }catch(Exception e){
             System.out.println("CRITICAL: Unable to create Log file");
         }
-            if(log.canRead() && log.canWrite())
+        
+        if(log.canRead() && log.canWrite())
         {
-            
-            
+            FileWriter fw=null;
+            try {
+                fw = new FileWriter(log);
+                fw.write("Date       Time     ErrCode  Loginformation\n"+
+                        "--------------------|-----|-----------------------------");
+            }catch(Exception e){}
+            finally {
+                if (fw != null) try {fw.close();}catch(Exception e){};
+            }
         }
         
     }
