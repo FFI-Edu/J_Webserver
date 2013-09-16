@@ -5,6 +5,9 @@ import java.net.URI;
 
 public class LOG
 {
+    private static String logname="events.txt";
+    private static String crashname="crash.txt";
+    
     /*
      * LOGFILE Style:
      *      Date       Time     ErrCode  Loginformation
@@ -26,9 +29,9 @@ public class LOG
         if(errorcode>9 && errorcode<100) err="0"+errorcode;
         if(errorcode<10 && errorcode!=0) err="00"+errorcode;
         
-        File log = new File("log"+File.separator+"events.txt");
+        File log = new File("log"+File.separator+logname);
         
-        if(!log.exists())clearlog();
+        if(!log.exists()) clearlog();
         
         if(log.canRead() && log.canWrite())
         {
@@ -44,19 +47,19 @@ public class LOG
     }
     
     /**
-     * clear content or create ./log/events and write first 2 lines
+     * clear content or create ./log/events and
      */
     public static void clearlog()
     {
         File log=null;
-        log = new File("log"+File.separator+"events.txt");
+        log = new File("log"+File.separator+logname);
         
         if(log.exists())
             log.delete();
         
         log = new File("log"+File.separator);
         log.mkdirs();
-        log = new File("log"+File.separator+"events.txt");
+        log = new File("log"+File.separator+logname);
         try{            
             log.createNewFile();
         }catch(Exception e){
@@ -75,7 +78,40 @@ public class LOG
                 if (fw != null) try {fw.close();}catch(Exception e){};
             }
         }
+    }
+    
+    /**
+     * clear content or create ./log/events and
+     */
+    public static void crashlog()
+    {
+        File log=null;
+        log = new File("log"+File.separator+crashname);
         
+        if(log.exists())
+            log.delete();
+        
+        log = new File("log"+File.separator);
+        log.mkdirs();
+        log = new File("log"+File.separator+crashname);
+        try{            
+            log.createNewFile();
+        }catch(Exception e){
+            System.out.println("CRITICAL: Unable to create Log file");
+        }
+        
+        if(log.canRead() && log.canWrite())
+        {
+            FileWriter fw=null;
+            try {
+                fw = new FileWriter(log);
+                fw.write("Date       Time     ErrCode  Loginformation\n"+
+                        "--------------------|-----|-----------------------------");
+            }catch(Exception e){}
+            finally {
+                if (fw != null) try {fw.close();}catch(Exception e){};
+            }
+        }
     }
     
     private static String date(){
