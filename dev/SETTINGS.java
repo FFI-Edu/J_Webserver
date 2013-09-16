@@ -21,4 +21,11 @@ public class SETTINGS
         //check if 
         refresh();
     }
+    
+    public int getPort(){
+        return 80;
+    }
+    public int getMaxThreads(){
+        return 1;
+    }
 }
