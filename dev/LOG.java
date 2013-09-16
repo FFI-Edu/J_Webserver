@@ -44,7 +44,7 @@ public class LOG
     }
     
     /**
-     * clear content or create ./log/events and
+     * clear content or create ./log/events and write first 2 lines
      */
     public static void clearlog()
     {
