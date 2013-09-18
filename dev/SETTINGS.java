@@ -1,4 +1,3 @@
-
 public class SETTINGS
 {
     SETTINGSTICKER ticker;
@@ -12,13 +11,12 @@ public class SETTINGS
     
     public void refresh()
     {
-        //
+        //if lastchange=date dont change!
         LOG.write("Settings refreshed");
     }
 
     public void tickerevent()
     {
-        //check if 
         refresh();
     }
     
