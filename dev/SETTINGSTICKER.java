@@ -12,7 +12,7 @@ class SETTINGSTICKER implements ActionListener
     Timer timer;    
     SETTINGS parentclass;                                        // <- CLASS MUST BE EDITED HERE
     
-    public SETTINGSTICKER (SETTINGS pc, int rate /*millisec*/ , boolean autostart)     // <- AND HERE 
+    public SETTINGSTICKER (SETTINGS pc, int rate, boolean autostart)     // <- AND HERE 
     {
         timer = new Timer(rate, this);
         if(autostart){
