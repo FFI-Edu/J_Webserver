@@ -1,4 +1,3 @@
-
 public class MAIN
 {
     SETTINGS set;
