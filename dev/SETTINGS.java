@@ -1,3 +1,4 @@
+
 public class SETTINGS
 {
     SETTINGSTICKER ticker;
@@ -11,12 +12,13 @@ public class SETTINGS
     
     public void refresh()
     {
-        //if lastchange=date dont change!
-        LOG.write("Settings refreshed");
+        //
+        //LOG.write("Settings refreshed");
     }
 
     public void tickerevent()
     {
+        //check if 
         refresh();
     }
     
@@ -24,6 +26,10 @@ public class SETTINGS
         return 80;
     }
     public int getMaxThreads(){
-        return 1;
+        return 20;
     }
+    public long getMaxThreadtime(){
+        return 60*60*1000;
+    }
+    
 }
