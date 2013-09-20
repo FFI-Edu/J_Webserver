@@ -29,6 +29,8 @@ public class LOG
         if(errorcode>9 && errorcode<100) err="0"+errorcode;
         if(errorcode<10 && errorcode!=0) err="00"+errorcode;
         
+        if(err.equals("000")){err="   ";}
+        
         File log = new File("log"+File.separator+logname);
         
         if(!log.exists()) clearlog();
@@ -39,6 +41,7 @@ public class LOG
             try {
                 fw = new FileWriter(log,true);
                 fw.append("\n"+date()+" | "+err+" | "+line);
+                System.out.println(line);
             }catch(Exception e){}
             finally {
                 if (fw != null) try {fw.close();}catch(Exception e){};
