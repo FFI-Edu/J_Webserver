@@ -1,4 +1,3 @@
-
 public class SETTINGS
 {
     SETTINGSTICKER ticker;
@@ -12,7 +11,7 @@ public class SETTINGS
     
     public void refresh()
     {
-        //
+        //read from ./settings/applicationsettings.ini
         //LOG.write("Settings refreshed");
     }
 
