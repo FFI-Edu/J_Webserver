@@ -74,7 +74,7 @@ public class LOG
             FileWriter fw=null;
             try {
                 fw = new FileWriter(log);
-                fw.write("Date       Time     ErrCode  Loginformation\n"+
+                fw.write("Date       Time     ErrCode  Loginformation"+File.separator+
                         "--------------------|-----|-----------------------------");
             }catch(Exception e){}
             finally {
@@ -108,7 +108,7 @@ public class LOG
             FileWriter fw=null;
             try {
                 fw = new FileWriter(log);
-                fw.write("Date       Time     ErrCode  Loginformation\n"+
+                fw.write("Date       Time     ErrCode  Loginformation"+File.separator+
                         "--------------------|-----|-----------------------------");
             }catch(Exception e){}
             finally {
