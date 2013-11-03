@@ -10,7 +10,7 @@ public class SOCKETTHREAD implements Runnable
     private SETTINGS set;
     private Socket socket;
     private SERVER server;
-    private long starttime;
+    private long starttime,requesttime,processtime,sendtime;
     
 
     /**
@@ -23,7 +23,7 @@ public class SOCKETTHREAD implements Runnable
         set             = sett;
         socket          = sock;
         
-        new Thread( this ).start();
+        new Thread( this ). start();
     }
     
     public void run(){
@@ -47,21 +47,34 @@ public class SOCKETTHREAD implements Runnable
         char[] buffer = new char[buffersize];
         int anzahlZeichen = bufferedReader.read(buffer, 0, buffersize); // blockiert bis Nachricht empfangen
         String request = new String(buffer, 0, anzahlZeichen);
-        
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("----------------------incoming request-----------------------");
+        System.out.println("-------------------------------------------------------------");
         System.out.println(request);
+        
+        requesttime = System.currentTimeMillis()-starttime;
         
         out(request);
     }
     public void out(String request) throws Exception
     {
-        PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        OutputStream out = socket.getOutputStream();
         
-        printWriter.println("Hello,l1");
-        new Thread( this ).sleep(1000);
-        printWriter.println("Bye,l2");
+        REQUESTHANDLER handler=new REQUESTHANDLER();
+        byte[] output=handler.getOutputBytes();
+        processtime = System.currentTimeMillis()-starttime;
         
-        printWriter.flush();
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("----------------------outgoing answer------------------------");
+        System.out.println("-------------------------------------------------------------");
+        System.out.println(new String(output));
         
+        out.write(output);
+        
+        out.flush();
+        out.close();
+        
+        sendtime = System.currentTimeMillis()-starttime;
     }
     
     private void close(SERVER serv){
