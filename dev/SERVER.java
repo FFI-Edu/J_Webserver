@@ -18,10 +18,12 @@ public class SERVER
         for(int i=0;i<set.getMaxThreads();i++){
             activeThreads[i]=null;
         }
-        serverSocket = new ServerSocket( set.getPort() );
+        
         try {
+            serverSocket = new ServerSocket( set.getPort() );
             startAccept();
         } catch (IOException e) {
+            LOG.write("CRITICAL: could not listen on port");
             e.printStackTrace();
         } 
     }
@@ -39,7 +41,7 @@ public class SERVER
                     serverSocket.accept().close();
                 }
             } catch (IOException e) {
-                LOG.write("Err while accepting a socket.",1);
+                LOG.write("Error while accepting a socket.",1);
                 e.printStackTrace();
             }
         }
@@ -54,7 +56,7 @@ public class SERVER
         return -1;
     }
     
-    public void threadFinished( int position){
+    public void threadFinished( int position ){
         
         try{
             activeThreads [ position ].interrupt();
