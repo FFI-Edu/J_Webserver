@@ -1,7 +1,10 @@
+import java.io.*; 
+
 public class SETTINGS
 {
     SETTINGSTICKER ticker;
-    String lastchange="";
+    long lastchange=0;
+    String settingsfile = "";
     
     public SETTINGS()
     {
@@ -11,10 +14,21 @@ public class SETTINGS
     
     public void refresh()
     {
-        //read from ./settings/applicationsettings.ini
-        //LOG.write("Settings refreshed");
+        if(lastchange==new File(settingsfile).lastModified()){
+            
+        }else{
+            updateVariables();
+            lastchange = new File(settingsfile).lastModified();
+        }
+        
+        
     }
-
+    public void updateVariables(){
+        
+        //
+        
+        LOG.write("Settings refreshed");
+    }
     public void tickerevent()
     {
         //check if 
