@@ -44,5 +44,16 @@ public class SETTINGS
     public long getMaxThreadtime(){
         return 60*60*1000;
     }
+    public String[] getIndexFileNames(){
+        String [] s={"index"};
+        return s;
+    }
+    public String[] getIndexFileTypes(){
+        String [] s={"html","htm"};
+        return s;
+    }
+    public boolean getFolderIndexingPermission(){
+        return true;
+    }
     
 }

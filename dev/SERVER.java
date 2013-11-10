@@ -38,7 +38,11 @@ public class SERVER
                     
                 }else{
                     LOG.write("Max Socketthreads reched! No more space in Array! Closing socket.",2);
-                    serverSocket.accept().close();
+                    Socket s=serverSocket.accept();
+                    s.getOutputStream().write("HTTP/1.0 503 Service Unavailable".getBytes());
+                    s.getOutputStream().flush();
+                    s.getOutputStream().close();
+                    serverSocket.close();
                 }
             } catch (IOException e) {
                 LOG.write("Error while accepting a socket.",1);

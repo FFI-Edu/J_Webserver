@@ -31,6 +31,7 @@ public class SOCKETTHREAD implements Runnable
         try{
             in();
         }catch(Exception e){
+            e.printStackTrace();
             LOG.write("Error communicating with the client. "+e.toString(),3);
         }finally{
             close(server);
@@ -45,8 +46,18 @@ public class SOCKETTHREAD implements Runnable
                 new InputStreamReader(
                     socket.getInputStream()));
         char[] buffer = new char[buffersize];
+        //System.out.println("Block");
         int anzahlZeichen = bufferedReader.read(buffer, 0, buffersize); // blockiert bis Nachricht empfangen
-        String request = new String(buffer, 0, anzahlZeichen);
+        String request="";
+        if(anzahlZeichen>0){
+             request = new String(buffer, 0, anzahlZeichen);
+        }else{
+            close(server);
+            LOG.write("There was a request without content.");
+            System.out.println("There was a request without content.");
+            return;
+        }
+        
         System.out.println("-------------------------------------------------------------");
         System.out.println("----------------------incoming request-----------------------");
         System.out.println("-------------------------------------------------------------");
@@ -54,20 +65,27 @@ public class SOCKETTHREAD implements Runnable
         
         requesttime = System.currentTimeMillis()-starttime;
         
+        new Thread( this ).sleep(4000);
         out(request);
     }
     public void out(String request) throws Exception
     {
         OutputStream out = socket.getOutputStream();
         
-        REQUESTHANDLER handler=new REQUESTHANDLER();
+        REQUESTHANDLER handler=new REQUESTHANDLER(request);
         byte[] output=handler.getOutputBytes();
         processtime = System.currentTimeMillis()-starttime;
         
         System.out.println("-------------------------------------------------------------");
         System.out.println("----------------------outgoing answer------------------------");
         System.out.println("-------------------------------------------------------------");
-        System.out.println(new String(output));
+        String outs="";
+        try{
+            outs= new String (output);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(outs);
         
         out.write(output);
         
@@ -75,6 +93,7 @@ public class SOCKETTHREAD implements Runnable
         out.close();
         
         sendtime = System.currentTimeMillis()-starttime;
+        //STATISTIC.giveThreadTimes(starttime,requesttime,processtime,sendtime);
     }
     
     private void close(SERVER serv){

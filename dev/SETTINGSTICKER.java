@@ -41,15 +41,4 @@ class SETTINGSTICKER implements ActionListener
         timer.setDelay(msec);
     }
     
-     /*public void sleep(int msec)
-    {
-        // Beansprucht Hardware durch minamalen Überprüfungszeitraum !
-        long start = System.currentTimeMillis();
-        while(true){
-            if( (long) start+msec <= System.currentTimeMillis()){
-                break;
-            }
-        }
-    }*/
-    
 }
