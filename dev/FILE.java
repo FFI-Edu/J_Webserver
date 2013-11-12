@@ -24,28 +24,32 @@ public class FILE
         if( this.getSize()==0 )
             return null;
         if( !f.isFile() || f.isDirectory() || from>to || this.getSize()-1<to ){
-            LOG.write("Failed to read file section! "+this.getName()+";from:"+from+";to:"+to+";", 700);
+            LOG.write("File Error! "+this.getName()+";from:"+from+";to:"+to+";", 700);
+            return null;
+        }
+        if(to-from>Integer.MAX_VALUE){
+            LOG.write("File section to big! "+this.getName()+";from:"+from+";to:"+to+";", 701);
             return null;
         }
         
         byte[] out=new byte[5];
-        FileReader fr=null;
+        FileInputStream fis=null;
+        
         try{
-            fr = new FileReader(f);
-            fr.skip(from);
-            char[] cbuf=new char[((int) (to-from))]; //! MAX OF 2.147.483.647 Bytes!
-            int red = fr.read(cbuf);
-            
-            
+            fis = new FileInputStream(f);
+            fis.skip(from);
+            byte[] cbuf=new byte[((int) ((to+1)-from))]; //! MAX OF 2.147.483.647 Bytes!
+            int red = fis.read(cbuf);
+            out=cbuf;
         }catch ( FileNotFoundException e ){
                 System.err.println( "Datei gibt’s nicht!" );
         }catch ( Exception e ){
-                LOG.write("Failed to read file section! "+this.getName()+";from:"+from+";to:"+to+";", 700);
+                LOG.write("Failed to read file section! "+this.getName()+";from:"+from+";to:"+to+";", 703);
         }finally{
-            try{fr.close();}catch(Exception e){;}
+            try{fis.close();}catch(Exception e){;}
         }
         
-        System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+(to-from)+"; real:"+out.length+";");
+        System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+((to+1)-from)+"; real:"+out.length+";");
         
         if( out!=null && gzip )
             out=(new GZIP().compress(out));
