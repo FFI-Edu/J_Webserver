@@ -19,6 +19,7 @@ public class FILE
     
     public byte[] getBytes(){return getBytes(false);};
     public byte[] getBytes(boolean gzip){return getBytes(0, this.getSize()-1, false);};
+    public byte[] getBytes(long from, long to){return getBytes(from, to, false);};
     public byte[] getBytes(long from, long to, boolean gzip){
         if( this.getSize()==0 )
             return null;
