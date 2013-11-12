@@ -11,7 +11,6 @@ public class FOLDERCOMPARATOR implements Comparator<FOLDER>
             asc=false;
     }
 
-    @Override
     public int compare(FOLDER b1, FOLDER b2) {
         int r=1;
         if( order.contains("size") ){

@@ -27,7 +27,7 @@ public class FILE
             return null;
         }
         
-        byte[] out=null;
+        byte[] out=new byte[5];
         try{
             FileReader fr = new FileReader(f);
             fr.skip(from);

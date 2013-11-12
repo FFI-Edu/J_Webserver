@@ -8,7 +8,7 @@ public class MAIN
     /**
      * Constructor for objects of class MAIN
      */
-    public MAIN(String args)
+    public MAIN(String[] args)
     {
         LOG.write("entering main tread with params: "+args.toString() );
         //do something with start params
@@ -34,7 +34,7 @@ public class MAIN
     /**
      * program entry
      */
-    public static void main(String args)
+    public static void main(String[] args)
     {
         LOG.clearlog();
         MAIN main = new MAIN(args);

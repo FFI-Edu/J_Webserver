@@ -11,7 +11,6 @@ public class FILECOMPARATOR implements Comparator<FILE>
             asc=false;
     }
 
-    @Override
     public int compare(FILE b1, FILE b2) {
         int r=1;
         if( order.contains("size") ){
