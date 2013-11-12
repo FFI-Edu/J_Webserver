@@ -29,17 +29,20 @@ public class FILE
         }
         
         byte[] out=new byte[5];
+        FileReader fr=null;
         try{
-            FileReader fr = new FileReader(f);
+            fr = new FileReader(f);
             fr.skip(from);
             char[] cbuf=new char[((int) (to-from))]; //! MAX OF 2.147.483.647 Bytes!
             int red = fr.read(cbuf);
             
-            fr.close();
+            
         }catch ( FileNotFoundException e ){
                 System.err.println( "Datei gibt’s nicht!" );
         }catch ( Exception e ){
                 LOG.write("Failed to read file section! "+this.getName()+";from:"+from+";to:"+to+";", 700);
+        }finally{
+            try{fr.close();}catch(Exception e){;}
         }
         
         System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+(to-from)+"; real:"+out.length+";");
