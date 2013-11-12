@@ -18,7 +18,7 @@ public class FILE
     public boolean exists(){return f.isFile();}
     
     public byte[] getBytes(){return getBytes(false);};
-    public byte[] getBytes(boolean gzip){return getBytes(0, this.getSize()-1, false);};
+    public byte[] getBytes(boolean gzip){return getBytes(0, this.getSize()-1, gzip);};
     public byte[] getBytes(long from, long to){return getBytes(from, to, false);};
     public byte[] getBytes(long from, long to, boolean gzip){
         if( this.getSize()==0 )
@@ -27,7 +27,7 @@ public class FILE
             LOG.write("File Error! "+this.getName()+";from:"+from+";to:"+to+";", 700);
             return null;
         }
-        if(to-from>Integer.MAX_VALUE){
+        if((to+1)-from > Integer.MAX_VALUE){
             LOG.write("File section to big! "+this.getName()+";from:"+from+";to:"+to+";", 701);
             return null;
         }
@@ -49,10 +49,10 @@ public class FILE
             try{fis.close();}catch(Exception e){;}
         }
         
-        System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+((to+1)-from)+"; real:"+out.length+";");
-        
         if( out!=null && gzip )
             out=(new GZIP().compress(out));
+        
+        System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+((to+1)-from)+"; real:"+out.length+";");
         
         return out;
     }

@@ -14,7 +14,7 @@ public class GZIP{
         } catch(IOException e){
             throw new RuntimeException(e);
         }
-        //System.out.printf("Compression ratio %f\n", (1.0f * content.length/byteArrayOutputStream.size()));
+        System.out.printf("Compression ratio %f\n", (1.0f * content.length/byteArrayOutputStream.size()));
         return byteArrayOutputStream.toByteArray();
     }
 
