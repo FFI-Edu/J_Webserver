@@ -32,7 +32,7 @@ public class FILE
             return null;
         }
         
-        byte[] out=new byte[5];
+        byte[] out=null;
         FileInputStream fis=null;
         
         try{
@@ -52,8 +52,9 @@ public class FILE
         if( out!=null && gzip )
             out=(new GZIP().compress(out));
         
-        System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+((to+1)-from)+"; real:"+out.length+";");
-        
+        try{
+            System.out.println("file to byte array! "+this.getName()+"; from:"+from+"; to:"+to+"; expect:"+((to+1)-from)+"; real:"+out.length+";");
+        }catch(Exception e){;}
         return out;
     }
 }
