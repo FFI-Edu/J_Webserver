@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.security.*;
+import java.text.SimpleDateFormat;
 
 public class FILE
 {
@@ -15,7 +17,30 @@ public class FILE
     public String getName(){return f.getName();}
     public boolean isHidden(){return f.isHidden();} 
     public boolean isVisible(){return !f.isHidden();} 
-    public boolean exists(){return f.isFile();}
+    public boolean exists(){return f.isFile();}    
+    public String getLastModified(){return new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z").format(new Date(this.getDate()));}
+    
+    public String getMD5(){
+        byte[] bytes = this.getBytes();
+        String md5s="";
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] md5 = md.digest( bytes );
+            md5s = new String(md5,"UTF-8");
+        }catch(Exception e){
+            LOG.write("Error in FILE:getMD5");
+        }
+        return md5s;
+    }
+    public String getBase64MD5(){
+        String b64md5="";
+        try{
+            b64md5 = Base64.encodeArray( this.getMD5().getBytes("UTF-8") );
+        }catch(Exception e){
+            LOG.write("Error in FILE:getBase64MD5");
+        }
+        return b64md5;
+    }
     
     public byte[] getBytes(){return getBytes(false);};
     public byte[] getBytes(boolean gzip){return getBytes(0, this.getSize()-1, gzip);};
